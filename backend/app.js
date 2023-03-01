@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./mysql_connection')
+require('./data_base/mysql_connection');
 const express = require('express');
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
