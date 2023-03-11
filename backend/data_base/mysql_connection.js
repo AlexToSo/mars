@@ -1,18 +1,17 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise')
 
-// Crear una conexión a la base de datos
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE
-});
-
-// Conectar a la base de datos
-connection.connect((error) => {
-  if (error) {
-    console.error('Error al conectarse a la base de datos: ' + error.stack);
-    return;
-  }
-  console.log('Conectado a la base de datos con ID: ' + connection.threadId);
-});
+// Configura la conexión con la base de datos
+mysql
+  .createConnection({
+    host: 'localhost',
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+  })
+  .then((connection) => {
+    console.log('Conectado a la base de datos con ID: ' + connection.threadId)
+    global.mysql = connection
+  })
+  .catch((e) =>
+    console.log('Error al conectarse a la base de datos: ' + e.stack)
+  )
